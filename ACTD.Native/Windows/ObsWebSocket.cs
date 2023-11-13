@@ -55,7 +55,49 @@ namespace ACTD.Native.Windows
         }
 
         private const string ObsWebSocketScheme = "obsws";
-        private const string WindowTitle = "WebSocket 连接信息";
+
+        private static readonly HashSet<string> PossibleWindowTitles = new()
+        {
+            "معلومات اتصال WebSocket",
+            "Informació de connexió del servidor WebSocket",
+            "Připojení k WebSocket serveru",
+            "WebSocket-forbindelsesinfo",
+            "WebSocket-Verbindungsinformationen",
+            "Πληροφορίες Σύνδεσης WebSocket",
+            "WebSocket Connect Info",
+            "Información de conexión de WebSocket",
+            "WebSocket'i ühenduse info",
+            "WebSocket konexio-informazioa",
+            "اطلاعات اتصال سوکت وب",
+            "WebSocket-yhteystiedot",
+            "Impormasyon ng WebSocket Connect",
+            "Informations de connexion WebSocket",
+            "מידע חיבור WebSocket",
+            "WebSocket कनेक्ट जानकारी दिखाएं",
+            "WebSocket kapcsolati információk",
+            "WebSocket կապի մանրամասները",
+            "Informasi Koneksi WebSocket",
+            "Informazioni sulla connessione WebSocket",
+            "WebSocket接続情報",
+            "WebSocket-კავშირის შესახებ",
+            "Zanyariyên girêdanê WebSocket",
+            "WebSocket 연결 정보",
+            "Maklumat Sambungan WebSocket",
+            "WebSocket verbindingsinformatie",
+            "Informacje o połączeniu WebSocket",
+            "Informação de Conexão WebSocket",
+            "Informação de ligação WebSocket",
+            "Informațiile conexiunii WebSocket",
+            "Сведения о подключении WebSocket",
+            "Info WebSocket pripojenia",
+            "Podatki o povezavi WebSocket",
+            "Anslutningsinfo för WebSocket",
+            "WebSocket Bağlanma Bilgileri",
+            "Відомості про з'єднання WebSocket",
+            "Thông tin kết nối WebSocket",
+            "WebSocket 连接信息",
+            "WebSocket 連線資訊",
+        };
 
         public static unsafe ObsWebSocketConfig? GetConfigByWindow()
         {
@@ -66,7 +108,7 @@ namespace ACTD.Native.Windows
                 fixed (char* pTitle = title)
                 {
                     var len = GetWindowText(hWndParent, pTitle, title.Length);
-                    if (string.Compare(WindowTitle, title[..len].ToString(), StringComparison.Ordinal) != 0)
+                    if (!PossibleWindowTitles.Contains(title[..len].ToString()))
                         return true;
 
                     hWnd = hWndParent;
